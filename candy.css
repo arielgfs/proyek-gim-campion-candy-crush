@@ -85,3 +85,40 @@ img.moving {
     opacity: 0.5; /* Make the dragging tile semi-transparent */
     z-index: 1; /* Bring the dragging tile to the front */
 }
+
+#crdt{
+    margin-top: 200px;
+}
+
+#startBtn{
+    margin-top: 20px;
+}
+
+/*tombol button */
+button {
+    border-radius: 10px;
+}
+
+#startBtn,#hs,#credit,#str,#st{
+    background-color: blue;
+    color: white;
+}
+
+#hs-credit-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+#hs-credit-container {
+    display: flex;
+    justify-content: center; /* Memusatkan elemen secara horizontal */
+    align-items: center; /* Memusatkan elemen secara vertikal */
+    margin-top: 20px; /* Tambahkan margin jika diperlukan */
+}
+
+#hs, #credit {
+    margin: 0 15px;
+}

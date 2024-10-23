@@ -125,6 +125,12 @@ function updateTimer() {
     if (timer <= 0) {
         clearInterval(interval);
         endGame();
+        emptyScore.push(score);
+        emptyScore.sort(function(a, b){return b - a});
+        for(i = 0; i <  5; i++){
+            maxScore[i] = emptyScore[i];
+        }
+        localStorage.setItem("maxScore", JSON.stringify(maxScore));
     }
 }
 
@@ -134,14 +140,8 @@ function endGame() {
     document.getElementById("high").style.display = "none";
     document.getElementById("game").style.display = "none";
     document.getElementById("crdt").style.display = "none";
-    emptyScore.push(score);
-    emptyScore.sort(function(a, b){return b - a});
-    for(i = 0; i <  5; i++){
-        maxScore[i] = emptyScore[i];
-    }
-    let string = JSON.stringify(maxScore);
-    localStorage.setItem("maxScore", string);
-
+    
+    
     // Save the highest score if needed
     if (score > highestScore) {
         highestScore = score;
@@ -149,7 +149,7 @@ function endGame() {
         localStorage.setItem("highestScore", highestScore);
         alert("selamat kamu mencapai  rekor score tertinggi baru");
     }
-
+   
     document.getElementById("highScore").innerText = highestScore;
 }
 
@@ -472,7 +472,8 @@ function explodeBomb(row, col) {
                 pop2.play(); // Mainkan suara pop
                 createExplosionAnimation(r, c);
                 candy.src = "./images/blank.png"; // Hancurkan permen yang terkena ledakan
-                score += 10; // Tambah skor untuk setiap permen yang hancur
+                score += 20; // Tambah skor untuk setiap permen yang hancur
+                timer += 1;
             }
         }
     });
@@ -538,6 +539,7 @@ function crushThree() {
             let candy2 = board[r][c + 1];
             let candy3 = board[r][c + 2];
             if (candy1.src == candy2.src && candy2.src == candy3.src && !candy1.src.includes("blank")) {
+                createExplosionAnimation(r, c);
                 candy1.src = "./images/blank.png";
                 candy2.src = "./images/blank.png";
                 candy3.src = "./images/blank.png";
@@ -555,6 +557,7 @@ function crushThree() {
             let candy2 = board[r + 1][c];
             let candy3 = board[r + 2][c];
             if (candy1.src == candy2.src && candy2.src == candy3.src && !candy1.src.includes("blank")) {
+                createExplosionAnimation(r, c);
                 candy1.src = "./images/blank.png";
                 candy2.src = "./images/blank.png";
                 candy3.src = "./images/blank.png";
