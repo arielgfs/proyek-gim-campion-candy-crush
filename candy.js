@@ -4,9 +4,11 @@ var rows = 9;
 var columns = 9;
 var score = 0;
 var timer = 10;
+var highestScore;
 var interval;
+let emptyScore = [0, 0, 0, 0, 0];
 let maxScore = [0, 0, 0, 0, 0]; //untuk menyimpan nilai tertinggi
-let string = JSON.stringify(maxScore);
+
 
 var currTile;
 var otherTile;
@@ -16,14 +18,15 @@ window.onload = function () {
     document.getElementById("startBtn").addEventListener("click", startGame);
     document.getElementById("hs").addEventListener("click", highScore);
     document.getElementById("credit").addEventListener("click", credit);
-
+    
     // Load highest score from localStorage
     if (localStorage.getItem("highestScore")) {
-
         highestScore = parseInt(localStorage.getItem("highestScore"));
         document.getElementById("highScore").innerText = highestScore;
-
-
+    }
+    if (!localStorage.getItem("maxScore")){
+        let string = JSON.stringify(maxScore);
+        localStorage.setItem("maxScore", string);
     }
 }
 
@@ -32,6 +35,17 @@ function highScore() {
     document.getElementById("menu").style.display = "none";
     document.getElementById("high").style.display = "block";
     document.getElementById("crdt").style.display = "none";
+    const score1 = document.getElementById("score1");
+    const score2 = document.getElementById("score2");
+    const score3 = document.getElementById("score3");
+    const score4 = document.getElementById("score4");
+    const score5 = document.getElementById("score5");
+
+    score1.innerText=maxScore[0];
+    score2.innerText=maxScore[1];
+    score3.innerText=maxScore[2];
+    score4.innerText=maxScore[3];
+    score5.innerText=maxScore[4];
     document.getElementById("str").addEventListener("click", endGame);
 
 }
@@ -120,11 +134,18 @@ function endGame() {
     document.getElementById("high").style.display = "none";
     document.getElementById("game").style.display = "none";
     document.getElementById("crdt").style.display = "none";
-
+    emptyScore.push(score);
+    emptyScore.sort(function(a, b){return b - a});
+    for(i = 0; i <  5; i++){
+        maxScore[i] = emptyScore[i];
+    }
+    let string = JSON.stringify(maxScore);
+    localStorage.setItem("maxScore", string);
 
     // Save the highest score if needed
     if (score > highestScore) {
         highestScore = score;
+
         localStorage.setItem("highestScore", highestScore);
         alert("selamat kamu mencapai  rekor score tertinggi baru");
     }
