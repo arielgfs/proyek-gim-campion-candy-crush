@@ -490,7 +490,7 @@ function explodeBomb(row, col) {
                 createExplosionAnimation(r, c);
                 candy.src = "./images/blank.png"; // Hancurkan permen yang terkena ledakan
                 score += 20; // Tambah skor untuk setiap permen yang hancur
-                timer += 0.5;
+                timer += 1;
             }
         }
     });
