@@ -6,6 +6,10 @@
         <title>Candy Crush</title>
         <link rel="stylesheet" href="candy.css">
         <script src="candy.js"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Grey+Qo&family=Jersey+25&family=Pixelify+Sans&display=swap" rel="stylesheet">
+
     </head>
     <style>
         img {
@@ -25,34 +29,43 @@
 
     <body>
         <div id="menu">
-            <h1>Candy Crush</h1>
-            <h2>Highest Score: <span id="highScore">0</span></h2>
+            <h1 class="pixel">Candy Crush</h1>
+            <h2 class="pixel">Highest Score: <span id="highScore">0</span></h2>
             <button id="startBtn">Start Game</button><br>
             <div id="hs-credit-container">
             <button id="hs">High Score</button>
             <button id="credit">Credit</button>
             </div>
         </div>
+       
         <div id="high" style="display:none;">
-            <h1>TOP 5 Highest Score</h1><br>
+            <div class="pixel">
+            <h1>TOP 5 High Score</h1><br>
             <h2>1. <span id="score1">0</span><br>
             <h2>2. <span id="score2">0</span><br>
             <h2>3. <span id="score3">0</span><br>
             <h2>4. <span id="score4">0</span><br>
             <h2>5. <span id="score5">0</span><br>
             <button id="str">Menu</button>
+            </div>
         </div>
         <div id="crdt" style="display:none">
+            <div class="pixel">
             <h1>Anggota</h1>
             <h2>Handy Satyakalama</h2>
             <h2>Geyzha Keyriz</h2>
             <h2>Johann Ariel</h2>
             <button id="st">Menu</button>
+            </div>
         </div>
-        
+        <div id="over" style="display:none">
+            <h1 class="pixel">GAME OVER</h1>
+            <h2 class="pixel">score: <span id="scorei">0</span></h2>
+            <button id="ovr">Menu</button>
+        </div>
         <div id="game" style="display:none;">
-            <h1>Score: <span id="score">0</span></h1>
-            <h2>Time: <span id="timer">10</span> seconds</h2>
+            <h1 class="pixel">Score: <span id="score">0</span></h1>
+            <h2 class="pixel">Time: <span id="timer">10</span> seconds</h2>
             <div id="board"></div>
         </div>
         <div id="jumpscare" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: black; z-index: 9999; justify-content: center; align-items: center;">

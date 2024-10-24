@@ -14,7 +14,8 @@ body {
     width: 450px;
     height: 450px;
     background-color: rgba(106,70,26,1.000);
-    border: 5px solid slategray;
+    border: 10px solid transparent; /* Set border solid dan transparan */
+    border-image: url("texture.jpg") 30 stretch; /* Ganti dengan path gambar tekstur Anda */
     border-radius: 10px;
     margin: 0 auto;
     display: flex;
@@ -99,9 +100,13 @@ button {
     border-radius: 10px;
 }
 
-#startBtn,#hs,#credit,#str,#st{
+#startBtn,#hs,#credit,#str,#st,#ovr{
     background-color: blue;
     color: white;
+}
+
+#over{
+    margin-top: 250px;
 }
 
 #hs-credit-container {
@@ -122,3 +127,22 @@ button {
 #hs, #credit {
     margin: 0 15px;
 }
+
+/* font pixel*/ 
+.pixel{
+  font-family: "Pixelify Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: auto;
+  font-style: bold;
+  stroke-width: 1px;
+  stroke:  black;
+} 
+
+.jersey{
+    font-family: "Jersey 25", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+  }
+  

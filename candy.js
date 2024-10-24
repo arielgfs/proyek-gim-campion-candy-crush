@@ -55,6 +55,17 @@ function highScore() {
 
 }
 
+function gameover(){
+    document.getElementById("menu").style.display = "none";
+    document.getElementById("high").style.display = "none";
+    document.getElementById("game").style.display = "none";
+    document.getElementById("crdt").style.display = "none";
+    document.getElementById("over").style.display = "block";
+    const scoreO = document.getElementById("scorei");
+    scoreO.innerText = score;
+    document.getElementById("ovr").addEventListener("click", endGame);
+}
+
 function credit() {
     document.getElementById("menu").style.display = "none";
     document.getElementById("crdt").style.display = "block";
@@ -65,7 +76,7 @@ function credit() {
 function startGame() {
     // Reset score dan timer
     score = 0;
-    timer = 2;
+    timer = 10;
     jumpscareShown = false;
     document.getElementById("score").innerText = score;
     document.getElementById("timer").innerText = timer;
@@ -129,7 +140,7 @@ function updateTimer() {
 
     if (timer <= 0) {
         clearInterval(interval);
-        endGame();
+        gameover();
         let retString = localStorage.getItem("maxScore");
         let emptyScore = JSON.parse(retString);
         emptyScore.push(score);
@@ -145,6 +156,7 @@ function endGame() {
     document.getElementById("high").style.display = "none";
     document.getElementById("game").style.display = "none";
     document.getElementById("crdt").style.display = "none";
+    document.getElementById("over").style.display = "none";
 
 
     // Save the highest score if needed
