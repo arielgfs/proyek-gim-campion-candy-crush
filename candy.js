@@ -19,12 +19,14 @@ window.onload = function () {
     document.getElementById("hs").addEventListener("click", highScore);
     document.getElementById("credit").addEventListener("click", credit);
     
+    
+
     // Load highest score from localStorage
     if (localStorage.getItem("highestScore")) {
         highestScore = parseInt(localStorage.getItem("highestScore"));
         document.getElementById("highScore").innerText = highestScore;
     }
-    if (!localStorage.getItem("maxScore")){
+    if (!localStorage.getItem("maxScore")) {
         let string = JSON.stringify(maxScore);
         localStorage.setItem("maxScore", string);
     }
@@ -40,12 +42,15 @@ function highScore() {
     const score3 = document.getElementById("score3");
     const score4 = document.getElementById("score4");
     const score5 = document.getElementById("score5");
-
-    score1.innerText=maxScore[0];
-    score2.innerText=maxScore[1];
-    score3.innerText=maxScore[2];
-    score4.innerText=maxScore[3];
-    score5.innerText=maxScore[4];
+    
+    let retString = localStorage.getItem("maxScore");
+    let maxScore = JSON.parse(retString);
+    console.log(maxScore);
+    score1.innerText = maxScore[0];
+    score2.innerText = maxScore[1];
+    score3.innerText = maxScore[2];
+    score4.innerText = maxScore[3];
+    score5.innerText = maxScore[4];
     document.getElementById("str").addEventListener("click", endGame);
 
 }
@@ -60,7 +65,7 @@ function credit() {
 function startGame() {
     // Reset score dan timer
     score = 0;
-    timer = 10;
+    timer = 2;
     jumpscareShown = false;
     document.getElementById("score").innerText = score;
     document.getElementById("timer").innerText = timer;
@@ -125,11 +130,11 @@ function updateTimer() {
     if (timer <= 0) {
         clearInterval(interval);
         endGame();
+        let retString = localStorage.getItem("maxScore");
+        let emptyScore = JSON.parse(retString);
         emptyScore.push(score);
-        emptyScore.sort(function(a, b){return b - a});
-        for(i = 0; i <  5; i++){
-            maxScore[i] = emptyScore[i];
-        }
+        emptyScore.sort(function (a, b) { return b - a });
+        maxScore = emptyScore.slice(0, 5);
         localStorage.setItem("maxScore", JSON.stringify(maxScore));
     }
 }
@@ -140,8 +145,8 @@ function endGame() {
     document.getElementById("high").style.display = "none";
     document.getElementById("game").style.display = "none";
     document.getElementById("crdt").style.display = "none";
-    
-    
+
+
     // Save the highest score if needed
     if (score > highestScore) {
         highestScore = score;
@@ -149,7 +154,7 @@ function endGame() {
         localStorage.setItem("highestScore", highestScore);
         alert("selamat kamu mencapai  rekor score tertinggi baru");
     }
-   
+
     document.getElementById("highScore").innerText = highestScore;
 }
 
@@ -473,7 +478,7 @@ function explodeBomb(row, col) {
                 createExplosionAnimation(r, c);
                 candy.src = "./images/blank.png"; // Hancurkan permen yang terkena ledakan
                 score += 20; // Tambah skor untuk setiap permen yang hancur
-                timer += 1;
+                timer += 0.5;
             }
         }
     });
