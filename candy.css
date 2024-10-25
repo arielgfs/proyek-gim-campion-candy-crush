@@ -95,14 +95,45 @@ img.moving {
     margin-top: 20px;
 }
 
-/*tombol button */
+
 button {
-    border-radius: 10px;
+    border: 5px solid #555; /* Efek tepi batu */
+    border-radius: 10px; /* Tepi melengkung */
+    box-shadow: inset -2px -2px 5px rgba(0,0,0,0.5), inset 2px 2px 5px rgba(255,255,255,0.3); /* Efek 3D */
+    cursor: pointer;
+    transition: background 0.3s, transform 0.1s;
 }
 
+#tutor {
+    width: 250px;/* Atur lebar sesuai kebutuhan */
+    position: absolute; 
+    right: 20px; 
+    top: 20px; 
+    font-size: 14px; 
+}
+
+
+img {
+    width: 80px; 
+    height: auto; 
+}
+
+
+img[src="bomb.png"] {
+    width: 80px; 
+    height: auto; 
+}
+
+button:hover{
+    background: #808080;
+}
+
+button:active {
+    background: #696969; /* Warna yang lebih gelap saat diklik */
+    transform: scale(0.95); /* Efek sedikit mengecil */
+}
 #startBtn,#hs,#credit,#str,#st,#ovr{
-    background-color: blue;
-    color: white;
+    color: black;
 }
 
 #over{
@@ -144,5 +175,38 @@ button {
     font-style: normal;
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: black;
-  }
+}
   
+
+
+
+@keyframes shake {
+    0% { transform: translate(0); }
+    25% { transform: translate(-5px, 0); }
+    50% { transform: translate(5px, 0); }
+    75% { transform: translate(-5px, 0); }
+    100% { transform: translate(0); }
+}
+.tile:hover {
+    transform: scale(1.1); /* Efek zoom saat hover */
+    animation: shake 0.5s infinite; 
+}
+
+#jumpscare {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+#jumpscare img{
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+}
