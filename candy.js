@@ -4,7 +4,7 @@ var rows = 9;
 var columns = 9;
 var score = 0;
 var timer = 10;
-var highestScore;
+var highestScore = 0;
 var interval;
 let emptyScore = [0, 0, 0, 0, 0];
 let maxScore = [0, 0, 0, 0, 0]; //untuk menyimpan nilai tertinggi
@@ -25,7 +25,7 @@ window.onload = function () {
     if (localStorage.getItem("highestScore")) {
         highestScore = parseInt(localStorage.getItem("highestScore"));
         document.getElementById("highScore").innerText = highestScore;
-    }
+    } 
     if (!localStorage.getItem("maxScore")) {
         let string = JSON.stringify(maxScore);
         localStorage.setItem("maxScore", string);
@@ -162,7 +162,6 @@ function endGame() {
     // Save the highest score if needed
     if (score > highestScore) {
         highestScore = score;
-
         localStorage.setItem("highestScore", highestScore);
         alert("selamat kamu mencapai  rekor score tertinggi baru");
     }
@@ -248,20 +247,16 @@ function explodeMagicCandy(candyTile) {
     const row = parseInt(coords[0]);
     const col = parseInt(coords[1]);
 
-    // Hancurkan candy di sekitar Magic Candy
+    // Hancurkan candy di sekitar Magic Candy dalam radius 2
     const surroundingCoords = [
-        { r: row - 3, c: col }, // Atas
-        { r: row + 3, c: col }, // Bawah
-        { r: row, c: col - 3 }, // Kiri
-        { r: row, c: col + 3 },  // Kanan
-        { r: row - 2, c: col },
-        { r: row + 2, c: col }, 
-        { r: row, c: col - 2 },
-        { r: row, c: col + 2 },
-        { r: row - 1, c: col },
-        { r: row + 1, c: col }, 
-        { r: row, c: col - 1 },
-        { r: row, c: col + 1 } 
+        { r: row - 2, c: col }, // Atas
+        { r: row + 2, c: col }, // Bawah
+        { r: row, c: col - 2 }, // Kiri
+        { r: row, c: col + 2 }, // Kanan
+        { r: row - 1, c: col }, // Atas 1
+        { r: row + 1, c: col }, // Bawah 1
+        { r: row, c: col - 1 }, // Kiri 1
+        { r: row, c: col + 1 }  // Kanan 1
     ];
 
     surroundingCoords.forEach(({ r, c }) => {
@@ -273,6 +268,10 @@ function explodeMagicCandy(candyTile) {
                 candy.src = "./images/blank.png"; // Ganti dengan gambar kosong
                 score += 20; // Tambah skor untuk setiap permen yang hancur
                 createExplosionAnimation(r, c); // Panggil animasi ledakan
+                
+                // Mainkan efek suara pop
+                pop2.currentTime = 0; // Reset waktu untuk memutar ulang suara
+                pop2.play(); // Mainkan suara pop
             }
         }
     });
@@ -280,6 +279,10 @@ function explodeMagicCandy(candyTile) {
     // Hapus Magic Candy dari papan
     candyTile.src = "./images/blank.png"; // Ganti dengan gambar kosong
     createExplosionAnimation(row, col); // Tampilkan animasi ledakan untuk Magic Candy
+
+    // Mainkan efek suara pop untuk Magic Candy
+    pop2.currentTime = 0; // Reset waktu untuk memutar ulang suara
+    pop2.play(); // Mainkan suara pop
 }
 
 
