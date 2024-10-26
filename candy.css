@@ -97,11 +97,14 @@ img.moving {
 
 
 button {
-    border: 5px solid #555; /* Efek tepi batu */
-    border-radius: 10px; /* Tepi melengkung */
-    box-shadow: inset -2px -2px 5px rgba(0,0,0,0.5), inset 2px 2px 5px rgba(255,255,255,0.3); /* Efek 3D */
-    cursor: pointer;
-    transition: background 0.3s, transform 0.1s;
+    border: none;
+    color: #fff;
+    background-image: linear-gradient(30deg,#FF8c00, black);
+    border-radius: 20px;
+    background-size: 100% auto;
+    font-family: inherit;
+    font-size: 20px;
+    transition: background 0.3s ease, transform 0.3s ease;
 }
 
 #tutor {
@@ -125,13 +128,31 @@ img[src="bomb.png"] {
 }
 
 button:hover{
-    background: #808080;
+    background-position: right center;
+    background-size: 200% auto;
+    -webkit-animation: pulse 2s infinite;
+    animation: pulse512 1.5s infinite;
 }
+
+@keyframes pulse512 {
+    0% {
+     box-shadow: 0 0 0 0 #48727a66;
+    }
+   
+    70% {
+     box-shadow: 0 0 0 10px rgb(218 103 68 / 0%);
+    }
+   
+    100% {
+     box-shadow: 0 0 0 0 rgb(218 103 68 / 0%);
+    }
+   }
 
 button:active {
     background: #696969; /* Warna yang lebih gelap saat diklik */
-    transform: scale(0.95); /* Efek sedikit mengecil */
+    transform: scale(0.80); /* Efek sedikit mengecil */
 }
+
 #startBtn,#hs,#credit,#str,#st,#ovr{
     color: black;
 }
@@ -140,23 +161,8 @@ button:active {
     margin-top: 250px;
 }
 
-#hs-credit-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-    justify-content: center;
-    align-items: center;
-}
-
-#hs-credit-container {
-    display: flex;
-    justify-content: center; /* Memusatkan elemen secara horizontal */
-    align-items: center; /* Memusatkan elemen secara vertikal */
-    margin-top: 20px; /* Tambahkan margin jika diperlukan */
-}
-
 #hs, #credit {
-    margin: 0 15px;
+    margin-top: 15px;
 }
 
 /* font pixel*/ 
@@ -169,17 +175,6 @@ button:active {
   stroke:  black;
 } 
 
-.jersey{
-    font-family: "Jersey 25", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: black;
-}
-  
-
-
-
 @keyframes shake {
     0% { transform: translate(0); }
     25% { transform: translate(-5px, 0); }
@@ -187,6 +182,7 @@ button:active {
     75% { transform: translate(-5px, 0); }
     100% { transform: translate(0); }
 }
+
 .tile:hover {
     transform: scale(1.1); /* Efek zoom saat hover */
     animation: shake 0.5s infinite; 
