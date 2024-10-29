@@ -4,7 +4,7 @@ var rows = 9;
 var columns = 9;
 var score = 0;
 var timer = 10;
-var highestScore;
+var highestScore = 0;
 var interval;
 let emptyScore = [0, 0, 0, 0, 0];
 let maxScore = [0, 0, 0, 0, 0]; //untuk menyimpan nilai tertinggi
@@ -235,9 +235,11 @@ function dragDrop() {
         // Cek apakah perpindahan valid
         let validMove = checkValid();
         if (!validMove) {
+            document.getElementById("board").classList.add("no-interaction");
             // Batalkan perpindahan jika tidak valid, kembalikan posisi
             setTimeout(() => {
                 swapCandies(currTile, otherTile);
+                document.getElementById("board").classList.remove("no-interaction");
             }, 500); // Tunggu hingga animasi perpindahan selesai
         }
     }

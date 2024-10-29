@@ -10,6 +10,14 @@ body {
     margin-top: 100px;
 }
 
+.border{
+    width: 450px;
+    height: 450px;
+    border: 1px solid white;
+    background-color: rgba(106,70,26,1.000);
+    margin: 0 auto;
+}
+
 #board {
     width: 450px;
     height: 450px;
@@ -177,9 +185,9 @@ button:active {
 
 @keyframes shake {
     0% { transform: translate(0); }
-    25% { transform: translate(-5px, 0); }
-    50% { transform: translate(5px, 0); }
-    75% { transform: translate(-5px, 0); }
+    25% { transform: translate(-3px, 0); }
+    50% { transform: translate(3px, 0); }
+    75% { transform: translate(-3px, 0); }
     100% { transform: translate(0); }
 }
 
@@ -205,4 +213,15 @@ button:active {
     width: 100%;
     height: auto;
     max-height: 100%;
+}
+
+.no-interaction {
+    pointer-events: none; /* Nonaktifkan semua interaksi mouse */
+}
+
+* {
+    user-select: none; /* Untuk browser modern */
+    -webkit-user-select: none; /* Untuk Safari */
+    -moz-user-select: none; /* Untuk Firefox */
+    -ms-user-select: none; /* Untuk Internet Explorer/Edge */
 }
