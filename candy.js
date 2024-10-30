@@ -234,9 +234,11 @@ function dragDrop() {
         // Cek apakah perpindahan valid
         let validMove = checkValid();
         if (!validMove) {
+            document.getElementById("board").classList.add("no-interaction");
             // Batalkan perpindahan jika tidak valid, kembalikan posisi
             setTimeout(() => {
                 swapCandies(currTile, otherTile);
+                document.getElementById("board").classList.remove("no-interaction");
             }, 500); // Tunggu hingga animasi perpindahan selesai
         }
     }
