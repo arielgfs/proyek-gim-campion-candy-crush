@@ -214,3 +214,15 @@ button:active {
     height: auto;
     max-height: 100%;
 }
+
+.no-interaction {
+    pointer-events: none; /* Nonaktifkan semua interaksi mouse */
+}
+
+* {
+    user-select: none; /* Untuk browser modern */
+    -webkit-user-select: none; /* Untuk Safari */
+    -moz-user-select: none; /* Untuk Firefox */
+    -ms-user-select: none; /* Untuk Internet Explorer/Edge */
+}
+

@@ -3,7 +3,7 @@ var board = [];
 var rows = 9;
 var columns = 9;
 var score = 0;
-var timer = 10;
+var timer = 100;
 var highestScore = 0;
 var interval;
 let emptyScore = [0, 0, 0, 0, 0];
@@ -25,7 +25,7 @@ window.onload = function () {
     if (localStorage.getItem("highestScore")) {
         highestScore = parseInt(localStorage.getItem("highestScore"));
         document.getElementById("highScore").innerText = highestScore;
-    } 
+    }
     if (!localStorage.getItem("maxScore")) {
         let string = JSON.stringify(maxScore);
         localStorage.setItem("maxScore", string);
@@ -76,7 +76,7 @@ function credit() {
 function startGame() {
     // Reset score dan timer
     score = 0;
-    timer = 10;
+    timer = 100;
     jumpscareShown = false;
     document.getElementById("score").innerText = score;
     document.getElementById("timer").innerText = timer;
@@ -162,6 +162,7 @@ function endGame() {
     // Save the highest score if needed
     if (score > highestScore) {
         highestScore = score;
+
         localStorage.setItem("highestScore", highestScore);
         alert("selamat kamu mencapai  rekor score tertinggi baru");
     }
@@ -231,6 +232,13 @@ function dragDrop() {
 
         }
 
+        if (currTile.src.includes("superCandy")) {
+            explodeSuperCandy(currTile);
+            return; // Keluar dari fungsi setelah super candy meledak
+        } else if (otherTile.src.includes("superCandy")) {
+            explodeSuperCandy(otherTile);
+            return; // Keluar dari fungsi setelah super candy meledak
+        }
         // Cek apakah perpindahan valid
         let validMove = checkValid();
         if (!validMove) {
@@ -249,16 +257,20 @@ function explodeMagicCandy(candyTile) {
     const row = parseInt(coords[0]);
     const col = parseInt(coords[1]);
 
-    // Hancurkan candy di sekitar Magic Candy dalam radius 2
+    // Hancurkan candy di sekitar Magic Candy
     const surroundingCoords = [
-        { r: row - 2, c: col }, // Atas
-        { r: row + 2, c: col }, // Bawah
-        { r: row, c: col - 2 }, // Kiri
-        { r: row, c: col + 2 }, // Kanan
-        { r: row - 1, c: col }, // Atas 1
-        { r: row + 1, c: col }, // Bawah 1
-        { r: row, c: col - 1 }, // Kiri 1
-        { r: row, c: col + 1 }  // Kanan 1
+        { r: row - 3, c: col }, // Atas
+        { r: row + 3, c: col }, // Bawah
+        { r: row, c: col - 3 }, // Kiri
+        { r: row, c: col + 3 },  // Kanan
+        { r: row - 2, c: col },
+        { r: row + 2, c: col }, 
+        { r: row, c: col - 2 },
+        { r: row, c: col + 2 },
+        { r: row - 1, c: col },
+        { r: row + 1, c: col }, 
+        { r: row, c: col - 1 },
+        { r: row, c: col + 1 } 
     ];
 
     surroundingCoords.forEach(({ r, c }) => {
@@ -270,10 +282,6 @@ function explodeMagicCandy(candyTile) {
                 candy.src = "./images/blank.png"; // Ganti dengan gambar kosong
                 score += 20; // Tambah skor untuk setiap permen yang hancur
                 createExplosionAnimation(r, c); // Panggil animasi ledakan
-                
-                // Mainkan efek suara pop
-                pop2.currentTime = 0; // Reset waktu untuk memutar ulang suara
-                pop2.play(); // Mainkan suara pop
             }
         }
     });
@@ -281,10 +289,6 @@ function explodeMagicCandy(candyTile) {
     // Hapus Magic Candy dari papan
     candyTile.src = "./images/blank.png"; // Ganti dengan gambar kosong
     createExplosionAnimation(row, col); // Tampilkan animasi ledakan untuk Magic Candy
-
-    // Mainkan efek suara pop untuk Magic Candy
-    pop2.currentTime = 0; // Reset waktu untuk memutar ulang suara
-    pop2.play(); // Mainkan suara pop
 }
 
 
@@ -369,12 +373,50 @@ function crushCandy() {
         jumpscareShown = true;  // Tanda bahwa jumpscare sudah muncul
     }
 
-    for (let r = 0; r < rows - 1; r++) {
-        for (let c = 0; c < columns - 1; c++) {
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < columns - 4; c++) {
             let candy1 = board[r][c];
             let candy2 = board[r][c + 1];
-            let candy3 = board[r + 1][c];
-            let candy4 = board[r + 1][c + 1];
+            let candy3 = board[r][c + 2];
+            let candy4 = board[r][c + 3];
+            let candy5 = board[r][c + 4];
+
+            // Cek jika lima permen sama
+            if (candy1.src === candy2.src && candy2.src === candy3.src && candy3.src === candy4.src && candy4.src === candy5.src && !candy1.src.includes("blank")) {
+                // Hancurkan kelima permen
+                createExplosionAnimation(r, c);
+                candy1.src = "./images/blank.png";
+                candy2.src = "./images/blank.png";
+                candy3.src = "./images/blank.png";
+                candy4.src = "./images/blank.png";
+                candy5.src = "./images/blank.png";
+                score += 50; // Tambah skor untuk 5 permen
+                createSuperCandy(r, c); // Buat permen super di posisi pertama
+            }
+        }
+    }
+
+    // Cek kolom untuk 5 permen
+    for (let c = 0; c < columns; c++) {
+        for (let r = 0; r < rows - 4; r++) {
+            let candy1 = board[r][c];
+            let candy2 = board[r + 1][c];
+            let candy3 = board[r + 2][c];
+            let candy4 = board[r + 3][c];
+            let candy5 = board[r + 4][c];
+
+            // Cek jika lima permen sama
+            if (candy1.src === candy2.src && candy2.src === candy3.src && candy3.src === candy4.src && candy4.src === candy5.src && !candy1.src.includes("blank")) {
+                // Hancurkan kelima permen
+                createExplosionAnimation(r, c);
+                candy1.src = "./images/blank.png";
+                candy2.src = "./images/blank.png";
+                candy3.src = "./images/blank.png";
+                candy4.src = "./images/blank.png";
+                candy5.src = "./images/blank.png";
+                score += 50; // Tambah skor untuk 5 permen
+                createSuperCandy(r, c); // Buat permen super di posisi pertama
+            }
 
             // Cek jika semua empat permen sama
             if (candy1.src === candy2.src && candy2.src === candy3.src && candy3.src === candy4.src && !candy1.src.includes("blank")) {
@@ -563,11 +605,66 @@ function createMagicCandy(row, col) {
     });
 }
 
+function createSuperCandy(row, col) {
+    // Ganti dengan gambar super candy
+    board[row][col].src = "./images/superCandy.png"; // Pastikan Anda memiliki gambar superCandy.png
+
+    // Tambahkan efek atau animasi jika diperlukan
+    createExplosionAnimation(row, col); // Panggil animasi ledakan untuk Super Candy
+    score += 100; // Tambah skor untuk membuat Super Candy
+}
+
 function createBomb(row, col) {
     bombs.push({ row, col }); // Simpan posisi bom
     board[row][col].src = "./images/bomb.png"; // Ganti dengan gambar bom
 }
 
+function explodeSuperCandy(candyTile) {
+    const coords = candyTile.id.split("-");
+    const row = parseInt(coords[0]);
+    const col = parseInt(coords[1]);
+
+    // Koordinat untuk permen di atas, kanan, kiri, dan bawah
+    const surroundingCoords = [
+        { r: row - 5, c: col }, // Atas
+        { r: row + 5, c: col }, // Bawah
+        { r: row, c: col - 5 }, // Kiri
+        { r: row, c: col + 5 },  // Kanan
+        { r: row - 4, c: col }, // Atas
+        { r: row + 4, c: col }, // Bawah
+        { r: row, c: col - 4 }, // Kiri
+        { r: row, c: col + 4},  // Kanan
+        { r: row - 3, c: col }, // Atas
+        { r: row + 3, c: col }, // Bawah
+        { r: row, c: col - 3 }, // Kiri
+        { r: row, c: col + 3 },  // Kanan
+        { r: row - 2, c: col }, // Atas
+        { r: row + 2, c: col }, // Bawah
+        { r: row, c: col - 2 }, // Kiri
+        { r: row, c: col + 2 },  // Kanan
+        { r: row - 1, c: col }, // Atas
+        { r: row + 1, c: col }, // Bawah
+        { r: row, c: col - 1 }, // Kiri
+        { r: row, c: col + 1 }  // Kanan
+    ];
+
+    surroundingCoords.forEach(({ r, c }) => {
+        // Pastikan koordinat berada dalam batas
+        if (r >= 0 && r < rows && c >= 0 && c < columns) {
+            let candy = board[r][c];
+            if (!candy.src.includes("blank") && !candy.src.includes("bomb")) {
+                // Hancurkan permen yang terkena ledakan
+                candy.src = "./images/blank.png"; // Ganti dengan gambar kosong
+                score += 20; // Tambah skor untuk setiap permen yang hancur
+                createExplosionAnimation(r, c); // Panggil animasi ledakan
+            }
+        }
+    });
+
+    // Hapus Super Candy dari papan
+    candyTile.src = "./images/blank.png"; // Ganti dengan gambar kosong
+    createExplosionAnimation(row, col); // Tampilkan animasi ledakan untuk Super Candy
+}
 
 function explodeBomb(row, col) {
     const bombSurroundingCoords = [
