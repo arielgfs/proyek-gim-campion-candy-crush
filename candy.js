@@ -3,7 +3,7 @@ var board = [];
 var rows = 9;
 var columns = 9;
 var score = 0;
-var timer = 100;
+var timer = 10;
 var highestScore = 0;
 var interval;
 let emptyScore = [0, 0, 0, 0, 0];
@@ -76,7 +76,7 @@ function credit() {
 function startGame() {
     // Reset score dan timer
     score = 0;
-    timer = 100;
+    timer = 10;
     jumpscareShown = false;
     document.getElementById("score").innerText = score;
     document.getElementById("timer").innerText = timer;
@@ -100,6 +100,21 @@ function startGame() {
         generateCandy();
     }, 100);
 }
+
+function updateBoardUI() {
+    const boardElement = document.getElementById('board');
+    boardElement.innerHTML = ''; // Kosongkan papan
+
+    for (let row of board) {
+        for (let candy of row) {
+            const candyElement = document.createElement('div');
+            candyElement.className = 'candy';
+            candyElement.style.backgroundImage = `url('${candy.src}')`; // Ganti dengan gambar yang sesuai
+            boardElement.appendChild(candyElement);
+        }
+    }
+}
+
 
 // Function to generate the game board
 function generateBoard() {
@@ -381,6 +396,8 @@ function crushCandy() {
             let candy4 = board[r][c + 3];
             let candy5 = board[r][c + 4];
 
+            checkForBombs();
+
             // Cek jika lima permen sama
             if (candy1.src === candy2.src && candy2.src === candy3.src && candy3.src === candy4.src && candy4.src === candy5.src && !candy1.src.includes("blank")) {
                 // Hancurkan kelima permen
@@ -539,6 +556,30 @@ function crushCandy() {
     document.getElementById("score").innerText = score;
 }
 
+function checkForBombs() {
+    for (let r = 0; r < rows - 1; r++) {
+        for (let c = 0; c < columns - 1; c++) {
+            let candy1 = board[r][c];
+            let candy2 = board[r][c + 1];
+            let candy3 = board[r + 1][c];
+            let candy4 = board[r + 1][c + 1];
+
+            // Cek jika semua 4 permen sama
+            if (candy1.src === candy2.src && candy2.src === candy3.src && candy3.src === candy4.src && !candy1.src.includes("blank")) {
+                // Hancurkan keempat permen
+                createExplosionAnimation(r, c);
+                candy1.src = "./images/blank.png";
+                candy2.src = "./images/blank.png";
+                candy3.src = "./images/blank.png";
+                candy4.src = "./images/blank.png";
+                
+                // Buat bom di posisi candy pertama
+                createBomb(r, c);
+            }
+        }
+    }
+}
+
 
 function createExplosionAnimation(row, col) {
     const explosionImages = [
@@ -615,8 +656,7 @@ function createSuperCandy(row, col) {
 }
 
 function createBomb(row, col) {
-    bombs.push({ row, col }); // Simpan posisi bom
-    board[row][col].src = "./images/bomb.png"; // Ganti dengan gambar bom
+    board[row][col].src = "./images/bomb.png"; 
 }
 
 function explodeSuperCandy(candyTile) {
